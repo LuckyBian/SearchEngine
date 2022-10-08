@@ -16,6 +16,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MyParserCallback extends HTMLEditorKit.ParserCallback {
     public String content = new String();
@@ -109,6 +111,40 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
         return url;
     }
 
+    public Boolean goodweb(String url){
+        String content = loadWebPage(url);
+        String pattern = "<title>([\\s\\S]*?)</title>";
+        Pattern r = Pattern.compile(pattern);
+        Matcher m1 = r.matcher(content);
+        String title = new String();
+
+        if(m1.find()){
+            title = m1.group(1).replace("\n","");
+            title = title.replace("\t","");
+            title = title.replaceAll("\r","");
+            title = title.replaceAll("\\p{Punct}", "");
+        }
+        else{
+            return false;
+        }
+        //System.out.println(title);
+
+        Pattern p = Pattern.compile("[\u4e00-\u9fa5]");
+        Matcher m = p.matcher(title);
+
+        if(m.find()){
+            return false;
+        }
+
+        String[] words = title.split(" ");
+
+        if(words.length > 10){
+            return false;
+        }
+        //System.out.println(title);
+        return true;
+    }
+
 
 
     List<String> getURLs(String srcPage) throws IOException {
@@ -127,8 +163,6 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
 
         return callback.urls;
     }
-
-
 
 
     @Override

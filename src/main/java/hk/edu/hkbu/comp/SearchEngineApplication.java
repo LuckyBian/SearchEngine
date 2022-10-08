@@ -26,9 +26,13 @@ public class SearchEngineApplication {
 
         while(urls.urls.size() > purls.purls.size()){
 
+            if(!m.goodweb(urls.urls.get(0))){
+                urls.urls.remove(0);
+                continue;
+            }
             if(urls.urls.size() > 0){
                 String content = m.loadWebPage(urls.urls.get(0));
-                if (content.contains("<html")){
+                //if (content.contains("<html")){
                     String pattern = "<title>([\\s\\S]*?)</title>";
                     Pattern r = Pattern.compile(pattern);
                     Matcher m1 = r.matcher(content);
@@ -37,29 +41,27 @@ public class SearchEngineApplication {
                         title = title.replace("\t","");
                         title = title.replaceAll("\r","");
                         title = title.replaceAll("\\p{Punct}", "");
-                        System.out.println(title);
                     }
+
                     String pattern2 = "<a[^>]*href=\\\"((http|www)[^\\\\\\\"]*)\\\"";
                     Pattern r2 = Pattern.compile(pattern2);
                     Matcher m2 = r2.matcher(content);
 
                     while (m2.find()){
-                        //System.out.println(m2.group(1));
                         if (!urls.urls.contains(m2.group(1)) && !purls.purls.contains(m2.group(1))){
                             if(urls.urls.size() < U){
-                                urls.urls.add(m2.group(1));
+                                    urls.urls.add(m2.group(1));
                             }
                         }
                     }
-                }
 
                 if(!purls.purls.contains(urls.urls.get(0))){
                     purls.purls.add(urls.urls.get(0));
                 }
                 urls.urls.remove(0);
             }
-            //System.out.println("The number websites: "+urls.urls.size());
-            //System.out.println("The number of identified websites: "+purls.purls.size());
+            System.out.println("The number websites: "+urls.urls.size());
+            System.out.println("The number of identified websites: "+purls.purls.size());
         }
         SpringApplication.run(SearchEngineApplication.class, args);
     }
