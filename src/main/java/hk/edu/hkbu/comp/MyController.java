@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.HandlerMapping;
-
+import hk.edu.hkbu.comp.MyParserCallback;
 @Controller
 public class MyController {
 
@@ -13,14 +13,11 @@ public class MyController {
     String sayHello(
             @RequestParam(name = "name", required = false, defaultValue = "there")
             String name) {
-
         return "<h1>Hello " + name + "!</h1>";
     }
-
     @GetMapping("load")
     @ResponseBody
     String load(HttpServletRequest request) {
         return "<h1>" + request + "!</h1>";
     }
-
 }
