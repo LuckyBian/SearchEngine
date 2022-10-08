@@ -19,12 +19,13 @@ public class SearchEngineApplication {
         PURL purls = new PURL();
         MyParserCallback m = new MyParserCallback();
         int U = 100;
+        int V = 100;
 
 
         String firstUrl = "https://biol.hkbu.edu.hk/";
         urls.urls.add(firstUrl);
 
-        while(urls.urls.size() > purls.purls.size()){
+        while(100 > purls.purls.size()){
 
             if(!m.goodweb(urls.urls.get(0))){
                 urls.urls.remove(0);
@@ -41,6 +42,12 @@ public class SearchEngineApplication {
                         title = title.replace("\t","");
                         title = title.replaceAll("\r","");
                         title = title.replaceAll("\\p{Punct}", "");
+
+                        String[] words = title.split(" ");
+
+                        for (String word : words) {
+                            kurls.kurls.put(word, urls.urls.get(0));
+                        }
                     }
 
                     String pattern2 = "<a[^>]*href=\\\"((http|www)[^\\\\\\\"]*)\\\"";
