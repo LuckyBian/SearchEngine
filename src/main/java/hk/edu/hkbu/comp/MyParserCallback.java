@@ -128,14 +128,6 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
         return callback.urls;
     }
 
-    @GetMapping("greeting")
-    @ResponseBody
-    String sayHello(
-            @RequestParam(name = "name", required = false, defaultValue = "there")
-            String name) {
-
-        return "<h1>Hello " + name + "!</h1>";
-    }
 
 
 
