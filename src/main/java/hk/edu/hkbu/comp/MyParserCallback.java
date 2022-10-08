@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-class MyParserCallback extends HTMLEditorKit.ParserCallback {
+public class MyParserCallback extends HTMLEditorKit.ParserCallback {
     public String content = new String();
     public List<String> urls = new ArrayList<String>();
 

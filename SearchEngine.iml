@@ -78,5 +78,6 @@
     <orderEntry type="library" name="Maven: org.unbescape:unbescape:1.1.6.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.4.RELEASE" level="project" />
     <orderEntry type="library" name="springframework.boot.spring.starter.thymeleaf" level="project" />
+    <orderEntry type="library" name="projectlombok.lombok" level="project" />
   </component>
 </module>
