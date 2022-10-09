@@ -5,8 +5,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.HandlerMapping;
 import hk.edu.hkbu.comp.MyParserCallback;
+import hk.edu.hkbu.comp.SearchEngineApplication;
 @Controller
 public class MyController {
+    //如果没有额外mapping，跳转index.html
 
     @GetMapping("greeting")
     @ResponseBody
@@ -18,6 +20,9 @@ public class MyController {
     @GetMapping("load")
     @ResponseBody
     String load(HttpServletRequest request) {
-        return "<h1>" + request + "!</h1>";
+        //返回搜索结果，需要额外方法进行过滤
+        String a = SearchEngineApplication.getUrls().urls.get(0);
+
+        return "<h1>" + a + "!</h1>";
     }
 }
