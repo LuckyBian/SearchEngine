@@ -56,7 +56,7 @@ public class SearchEngineApplication {
         urls.urls.add(firstUrl);
 
         // 开始循环，存储数据
-        while(V > purls.purls.size()){
+        while(1 > purls.purls.size()){
 
             //判断当前链接是否符合要求，可以新添加，目前有中英文，长度
             if(!m.goodweb(urls.urls.get(0))){
