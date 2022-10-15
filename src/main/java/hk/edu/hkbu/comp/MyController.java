@@ -29,7 +29,6 @@ public class MyController {
     @ResponseBody
     public String load(HttpServletRequest request, String query, String scope, HttpServletResponse response) throws IOException {
         //返回搜索结果，需要额外方法进行过滤
-        System.out.println(query);
         if (query.equals(" ")) {
             response.sendRedirect("index.html");
         }
@@ -48,6 +47,24 @@ public class MyController {
             List<KURL> table3 = SearchEngineApplication.getKurls();
             List keywordList = SearchEngineApplication.keywords;
             int wordNumber = words.length;
+
+            if(wordNumber == 1){
+                if(keywordList.contains(query)){
+                    int webIndex = keywordList.indexOf(query);
+                    KURL kurls = table3.get(webIndex);
+                    request.setAttribute("titles",kurls.getTitle());
+                    request.setAttribute("urls",kurls.getUrls());
+                    request.setAttribute("test","test");
+                    response.sendRedirect("index.html");
+                }
+            }
+
+            else if(wordNumber == 2){
+                response.sendRedirect("index.html");
+            }
+            else{
+                return "Please input 1 or 2 words";
+            }
 
 
             return "redirect:/index.html";
