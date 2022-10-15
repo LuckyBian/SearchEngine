@@ -114,7 +114,7 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
         }
     }
 
-    boolean isAbsURL(String str) {
+    public boolean isAbsURL(String str) {
         return str.matches("^[a-z0-9]+://.+");
     }
 
