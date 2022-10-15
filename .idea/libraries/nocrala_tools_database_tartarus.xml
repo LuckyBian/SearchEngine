@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="nocrala.tools.database.tartarus" type="repository">
+    <properties maven-id="org.nocrala.tools.database:tartarus:3.1.10" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/nocrala/tools/database/tartarus/3.1.10/tartarus-3.1.10.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-api/2.12.1/log4j-api-2.12.1.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-core/2.12.1/log4j-core-2.12.1.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/nocrala/tools/lang/collector/list-collector/1.0.5/list-collector-1.0.5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -3,6 +3,7 @@ package hk.edu.hkbu.comp;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.tartarus.snowball.ext.englishStemmer;
 import org.yaml.snakeyaml.nodes.Tag;
 
 import javax.swing.text.MutableAttributeSet;
@@ -13,11 +14,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 public class MyParserCallback extends HTMLEditorKit.ParserCallback {
     public String content = new String();
@@ -46,6 +46,31 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
         }
 
         return uniqueWords;
+    }
+
+    public List extraKey(String text){
+
+        String[] result = text.split("[\\p{Punct}\\s]+");
+        List<String> lastversion = new ArrayList<String>();
+        String[] blabklist = new String[]{"a","an","the","be"};
+
+        for(int i = 0; i < result.length; i++){
+            if(is_alpha(result[i])){
+                englishStemmer stemmer = new englishStemmer();
+                stemmer.setCurrent(result[i]);
+                result[i] = stemmer.getCurrent();
+
+                if(Arrays.asList(blabklist).contains(result[i])){
+                    continue;
+                }
+
+                if(!lastversion.contains(result[i])){
+                    System.out.println(result[i]);
+                    lastversion.add(result[i]);
+                }
+            }
+        }
+        return lastversion;
     }
 
     String loadWebPage(String urlString) {
@@ -110,6 +135,12 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
 
         return url;
     }
+
+    public boolean is_alpha(String str) {
+        if(str==null) return false;
+        return str.matches("[a-zA-Z]+");
+    }
+
 
     public Boolean goodweb(String url){
         String content = loadWebPage(url);
