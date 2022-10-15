@@ -52,6 +52,7 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
 
         String[] result = text.split("[\\p{Punct}\\s]+");
         List<String> lastversion = new ArrayList<String>();
+
         String[] blabklist = new String[]{"a","an","the","be"};
 
         for(int i = 0; i < result.length; i++){
@@ -65,7 +66,6 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
                 }
 
                 if(!lastversion.contains(result[i])){
-                    System.out.println(result[i]);
                     lastversion.add(result[i]);
                 }
             }
