@@ -15,6 +15,7 @@
     <orderEntry type="library" name="projectlombok.lombok" level="project" />
     <orderEntry type="library" name="springframework.boot.spring.devtools" level="project" />
     <orderEntry type="library" name="apache.lucene.analyzers.smartcn" level="project" />
+    <orderEntry type="library" name="nocrala.tools.database.tartarus" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-web:2.7.4" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:2.7.4" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-logging:2.7.4" level="project" />
@@ -55,6 +56,8 @@
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-devtools:2.7.4" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:2.7.4" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-autoconfigure:2.7.4" level="project" />
-    <orderEntry type="library" name="nocrala.tools.database.tartarus" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.13.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:2.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest:2.2" level="project" />
   </component>
 </module>

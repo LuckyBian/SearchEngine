@@ -43,18 +43,18 @@ public class MyController {
                        Model model) throws IOException {
         //返回搜索结果，需要额外方法进行过滤
         if (query.equals(" ")) {
-            response.sendRedirect("index.html");
+            return "redirect:/index.html";
         }
 
         if (scope != null && scope.equals("URL")) {
-
             if(query.matches("^[a-z0-9]+://.+")){
-                response.sendRedirect(query);
+                return "redirect:"+query;
             }
             else{
-                return "This is not a URL, Please reload the page and search again!";
+                return "redirect:/index.html";
             }
         }
+
         else {
             String[] words = query.split(" ");
             List<KURL> table3 = SearchEngineApplication.getKurls();
