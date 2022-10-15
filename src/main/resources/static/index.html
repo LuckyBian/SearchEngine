@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title> Search Engine</title>
     <link rel="icon" href="dog.ico" type="image/x-icon">
@@ -7,14 +7,13 @@
     <script src="change.js" type="text/javascript"></script>
     <link href="./grid.css" rel="stylesheet" type="text/css"/>
     <style>
-
         .col{
         color: white;
         text-align: center;
         height: 200px;
         }
-
     </style>
+
 </head>
 <body>
 
@@ -38,27 +37,6 @@
         </label>
     </p>
 </form>
-
-
-<div class="container text-center">
-    <div class="row">
-        <div class="col">
-            <span th:>"${test}"</span>
-        </div>
-        <div class="col">
-            Website 2
-            <div>link 2</div>
-            <div>this is the best search engine</div>
-        </div>
-        <div class="col">
-            Website 3
-            <div>link 3</div>
-            <div>this is the best search engine</div>
-        </div>
-    </div>
-
-
-</div>
 
 </body>
 </html>

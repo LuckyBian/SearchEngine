@@ -9,8 +9,8 @@
     <style>
         .col{
         color: white;
-        text-align: center;
         height: 200px;
+        width: 50%;
         }
     </style>
 
@@ -38,5 +38,31 @@
     </p>
 </form>
 
+
+<div class="container text-center">
+
+            <div th:each="k:${map.keySet()}" class="col">
+                <p th:text = "${k}">
+                <p th:text = "${map.get(k)}">
+            </div>
+
+
+</div>
+
 </body>
+
+<script th:inline="javascript">
+    var title = /*[[${title}]]*/ "";
+    var url = /*[[${url}]]*/ "";
+
+    var Str = " "
+
+   for (var i=0;i<title.length();i++){
+       Str = Str + title[0];
+   }
+
+   document.getElementById("webpages").innerHTML = a;
+
+
+</script>
 </html>

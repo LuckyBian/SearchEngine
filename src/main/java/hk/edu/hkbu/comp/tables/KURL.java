@@ -20,6 +20,10 @@ public class KURL {
         this.urls = u;
     }
 
+    public KURL(){
+
+    }
+
     public List<String> getUrls() {
         return urls;
     }
