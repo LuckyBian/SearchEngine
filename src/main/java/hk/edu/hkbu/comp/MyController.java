@@ -42,7 +42,7 @@ public class MyController {
                        String url,
                        Model model) throws IOException {
         //返回搜索结果，需要额外方法进行过滤
-        if (query.equals(" ")) {
+        if (query.equals("")) {
             return "redirect:/index.html";
         }
 
@@ -62,6 +62,7 @@ public class MyController {
             int wordNumber = words.length;
 
             if(wordNumber == 1){
+
                 words[0] = MyParserCallback.stem(words[0]);
                 if(keywordList.contains(words[0])){
                     Map<String,String> map = new HashMap<>();
@@ -80,6 +81,28 @@ public class MyController {
 
                 if(keywordList.contains(words[0])){
                     if(keywordList.contains(words[1])){
+                        if(query.matches("[A-z]+\\+[A-z]+")){
+                            Map<String,String> map = new HashMap<>();
+                            map = MyParserCallback.andsearch(words[0],words[1]);
+                            request.setAttribute("map",map);
+                            return "index.html";
+                        }
+                        else if(query.matches("[A-z]+\\![A-z]+")){
+                            Map<String,String> map = new HashMap<>();
+                            map = MyParserCallback.orsearch(words[0],words[1]);
+                            request.setAttribute("map",map);
+                            return "index.html";
+                        }
+
+                        else if(query.matches("[A-z]+-[A-z]+")){
+                            Map<String,String> map = new HashMap<>();
+                            map = MyParserCallback.notsearch(words[0],words[1]);
+                            request.setAttribute("map",map);
+                            return "index.html";
+                        }
+                        else {
+                            return "redirect:/index.html";
+                        }
 
                     }
                     else{
@@ -104,6 +127,5 @@ public class MyController {
                 return "redirect:/index.html";
             }
         }
-        return "redirect:/index.html";
     }
 }

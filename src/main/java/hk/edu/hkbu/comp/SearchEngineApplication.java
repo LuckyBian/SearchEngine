@@ -47,12 +47,13 @@ public class SearchEngineApplication {
     //程序开始
     public static void main(String[] args) throws IOException {
 
+        SpringApplication.run(SearchEngineApplication.class, args);
 
         // 创建m，使用其中的过滤方法
         MyParserCallback m = new MyParserCallback();
 
         // 按要求创建变量，控制收集到的链接
-        int U = 100;
+        int U = 10;
         int V = 100;
 
         // seed URL，从这里开始
@@ -62,7 +63,7 @@ public class SearchEngineApplication {
         urls.urls.add(firstUrl);
 
         // 开始循环，存储数据
-        while(1 > purls.purls.size()){
+        while(V > purls.purls.size()){
 
             //判断当前链接是否符合要求，可以新添加，目前有中英文，长度
             if(!m.goodweb(urls.urls.get(0))){
@@ -135,6 +136,6 @@ public class SearchEngineApplication {
             System.out.println("The number websites: "+urls.urls.size());
             System.out.println("The number of identified websites: "+purls.purls.size());
         }
-        SpringApplication.run(SearchEngineApplication.class, args);
+
     }
 }

@@ -10,7 +10,10 @@
         .col{
         color: white;
         height: 200px;
-        width: 50%;
+        }
+
+        a{
+        color: white;
         }
     </style>
 
@@ -28,7 +31,7 @@
 <form action="load" method="GET">
     <p style="color: white;text-align:center;!">
 
-        Search: <input type="text" name="query" value=" " />
+        Search: <input type="text" name="query" value="" />
 
         <input type="submit"/>
         <label>
@@ -41,10 +44,15 @@
 
 <div class="container text-center">
 
-            <div th:each="k:${map.keySet()}" class="col">
-                <p th:text = "${k}">
-                <p th:text = "${map.get(k)}">
-            </div>
+    <div style="width:50%;">
+
+        <div th:each="k:${map.keySet()}" class="col">
+            <a th:href="${k}"><p th:text = "${map.get(k)}"></a>
+        </div>
+
+    </div>
+
+
 
 
 </div>

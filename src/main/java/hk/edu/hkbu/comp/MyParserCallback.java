@@ -104,15 +104,91 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
 
     public static Map<String,String> onesearch(String text){
         List<KURL> table3 = SearchEngineApplication.getKurls();
-        List keywordList = SearchEngineApplication.keywords;
 
+        List keywordList = SearchEngineApplication.keywords;
         int webIndex = keywordList.indexOf(text);
         KURL kurls = new KURL();
         kurls = table3.get(webIndex);
 
         Map<String,String> map = new HashMap<>();
         for(int j = 0 ; j < kurls.getTitle().size();j++){
-            map.put(kurls.getTitle().get(j),kurls.getUrls().get(j));
+            map.put(kurls.getUrls().get(j),kurls.getTitle().get(j));
+        }
+        return map;
+    }
+
+    public static Map<String,String> andsearch(String text1,String text2){
+        List<KURL> table3 = SearchEngineApplication.getKurls();
+        List keywordList = SearchEngineApplication.keywords;
+
+        int webIndex1 = keywordList.indexOf(text1);
+        int webIndex2 = keywordList.indexOf(text2);
+
+        KURL kurls1 = new KURL();
+        kurls1 = table3.get(webIndex1);
+
+        KURL kurls2 = new KURL();
+        kurls2 = table3.get(webIndex2);
+
+        Map<String,String> map = new HashMap<>();
+        for(int j = 0 ; j < kurls1.getTitle().size(); j++){
+            if(kurls2.getUrls().contains(kurls1.getUrls().get(j))){
+                map.put(kurls1.getUrls().get(j),kurls1.getTitle().get(j));
+            }
+        }
+        return map;
+    }
+
+    public static Map<String,String> notsearch(String text1,String text2){
+        List<KURL> table3 = SearchEngineApplication.getKurls();
+        List keywordList = SearchEngineApplication.keywords;
+
+        int webIndex1 = keywordList.indexOf(text1);
+        int webIndex2 = keywordList.indexOf(text2);
+
+        KURL kurls1 = new KURL();
+        kurls1 = table3.get(webIndex1);
+
+        KURL kurls2 = new KURL();
+        kurls2 = table3.get(webIndex2);
+
+        Map<String,String> map = new HashMap<>();
+        for(int j = 0 ; j < kurls1.getTitle().size(); j++){
+            if(!kurls2.getUrls().contains(kurls1.getUrls().get(j))){
+                map.put(kurls1.getUrls().get(j),kurls1.getTitle().get(j));
+            }
+        }
+
+        for(int j = 0 ; j < kurls2.getTitle().size(); j++){
+            if(!kurls1.getUrls().contains(kurls2.getUrls().get(j))){
+                map.put(kurls2.getUrls().get(j),kurls2.getTitle().get(j));
+            }
+        }
+        return map;
+    }
+
+    public static Map<String,String> orsearch(String text1,String text2){
+        List<KURL> table3 = SearchEngineApplication.getKurls();
+        List keywordList = SearchEngineApplication.keywords;
+
+        int webIndex1 = keywordList.indexOf(text1);
+        int webIndex2 = keywordList.indexOf(text2);
+
+        KURL kurls1 = new KURL();
+        kurls1 = table3.get(webIndex1);
+
+        KURL kurls2 = new KURL();
+        kurls2 = table3.get(webIndex2);
+
+        Map<String,String> map = new HashMap<>();
+        for(int j = 0 ; j < kurls2.getTitle().size(); j++){
+            map.put(kurls2.getUrls().get(j),kurls2.getTitle().get(j));
+        }
+
+        for(int j = 0 ; j < kurls1.getTitle().size(); j++){
+            if(!kurls2.getUrls().contains(kurls1.getUrls().get(j))){
+                map.put(kurls1.getUrls().get(j),kurls1.getTitle().get(j));
+            }
         }
         return map;
     }
