@@ -1,5 +1,6 @@
 package hk.edu.hkbu.comp;
 
+import hk.edu.hkbu.comp.tables.KURL;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -93,6 +94,27 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
         }
 
         return content;
+    }
+
+    public static String stem(String text){
+        englishStemmer stemmer = new englishStemmer();
+        stemmer.setCurrent(text);
+        return stemmer.getCurrent();
+    }
+
+    public static Map<String,String> onesearch(String text){
+        List<KURL> table3 = SearchEngineApplication.getKurls();
+        List keywordList = SearchEngineApplication.keywords;
+
+        int webIndex = keywordList.indexOf(text);
+        KURL kurls = new KURL();
+        kurls = table3.get(webIndex);
+
+        Map<String,String> map = new HashMap<>();
+        for(int j = 0 ; j < kurls.getTitle().size();j++){
+            map.put(kurls.getTitle().get(j),kurls.getUrls().get(j));
+        }
+        return map;
     }
 
     public void handleStartTag(Tag tag, MutableAttributeSet attrSet, int pos)

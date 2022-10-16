@@ -56,26 +56,17 @@ public class MyController {
         }
 
         else {
-            String[] words = query.split(" ");
+            String[] words = query.split("[\\p{Punct}\\s+]");
             List<KURL> table3 = SearchEngineApplication.getKurls();
             List keywordList = SearchEngineApplication.keywords;
             int wordNumber = words.length;
 
             if(wordNumber == 1){
-                englishStemmer stemmer = new englishStemmer();
-                stemmer.setCurrent(words[0]);
-                words[0] = stemmer.getCurrent();
+                words[0] = MyParserCallback.stem(words[0]);
                 if(keywordList.contains(words[0])){
-                    int webIndex = keywordList.indexOf(words[0]);
-                    KURL kurls = new KURL();
-                    kurls = table3.get(webIndex);
-
                     Map<String,String> map = new HashMap<>();
-                    for(int j = 0 ; j < kurls.getTitle().size();j++){
-                        map.put(kurls.getTitle().get(j),kurls.getUrls().get(j));
-                    }
+                    map = MyParserCallback.onesearch(words[0]);
                     request.setAttribute("map",map);
-
                     return "index.html";
                 }
                 else{
@@ -84,12 +75,35 @@ public class MyController {
             }
 
             else if(wordNumber == 2){
-                response.sendRedirect("index.html");
+                words[0] = MyParserCallback.stem(words[0]);
+                words[1] = MyParserCallback.stem(words[1]);
+
+                if(keywordList.contains(words[0])){
+                    if(keywordList.contains(words[1])){
+
+                    }
+                    else{
+                        Map<String,String> map = new HashMap<>();
+                        map = MyParserCallback.onesearch(words[0]);
+                        request.setAttribute("map",map);
+                        return "index.html";
+                    }
+                }
+
+                else if(keywordList.contains(words[1])){
+                    Map<String,String> map = new HashMap<>();
+                    map = MyParserCallback.onesearch(words[1]);
+                    request.setAttribute("map",map);
+                    return "index.html";
+                }
+                else{
+                    return "redirect:/index.html";
+                }
             }
             else{
-                return "Please input 1 or 2 words";
+                return "redirect:/index.html";
             }
         }
-        return "index";
+        return "redirect:/index.html";
     }
 }
