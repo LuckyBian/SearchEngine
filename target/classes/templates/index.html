@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title> Search Engine</title>
+    <link rel="icon" href="dog.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="dog.ico" type="image/x-icon">
+    <script src="change.js" type="text/javascript"></script>
+    <link href="./grid.css" rel="stylesheet" type="text/css"/>
+    <style>
+        .col{
+        color: white;
+        height: 200px;
+        width: 50%;
+        }
+    </style>
+
+</head>
+<body>
+
+<!--进行搜索，返回    /load?query=   转到Mycontroller-->
+<h1 style="color: white;text-align: center;!">
+    <span style="color:#4286F3;">M</span><span style="color:#EB4537;">y </span>
+    <span style="color:#FAC230;">S</span><span style="color:#4286F3;">e</span><span style="color:#55AF7B;">a</span><span style="color:#EB4537;">r</span><span style="color:#4286F3;">c</span><span style="color:#EB4537;">h </span>
+    <span style="color:#FAC230;">E</span><span style="color:#4286F3;">n</span><span style="color:#55AF7B;">g</span><span style="color:#EB4537;">i</span><span style="color:#4286F3;">n</span><span style="color:#EB4537;">e</span>
+</h1>
+
+
+<form action="load" method="GET">
+    <p style="color: white;text-align:center;!">
+
+        Search: <input type="text" name="query" value=" " />
+
+        <input type="submit"/>
+        <label>
+            <input name="scope" type="radio" value="URL" />
+            URL
+        </label>
+    </p>
+</form>
+
+
+<div class="container text-center">
+
+            <div th:each="k:${map.keySet()}" class="col">
+                <p th:text = "${k}">
+                <p th:text = "${map.get(k)}">
+            </div>
+
+
+</div>
+
+</body>
+
+<script th:inline="javascript">
+    var title = /*[[${title}]]*/ "";
+    var url = /*[[${url}]]*/ "";
+
+    var Str = " "
+
+   for (var i=0;i<title.length();i++){
+       Str = Str + title[0];
+   }
+
+   document.getElementById("webpages").innerHTML = a;
+
+
+</script>
+</html>
