@@ -12,11 +12,19 @@
         text-align: center;
         height: 200px;
         }
+
+        input:focus{
+    border-color: #66afe9;
+    outline: 0;
+    border-radius:4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
+}
     </style>
 
 </head>
 <body>
-
+<div style="margin:200px"></div>
 <!--进行搜索，返回    /load?query=   转到Mycontroller-->
 <h1 style="color: white;text-align: center;!">
     <span style="color:#4286F3;">M</span><span style="color:#EB4537;">y </span>
@@ -28,7 +36,7 @@
 <form action="load" method="GET">
     <p style="color: white;text-align:center;!">
 
-        Search: <input type="text" name="query" value=""/>
+        <input style="width:430px; height:33px; box-sizing: border-box; padding: 1px 2px; border-radius:10px;" type="text" name="query" value=""/>
 
         <input type="submit"/>
         <label>
@@ -38,5 +46,8 @@
     </p>
 </form>
 
+
 </body>
+
+
 </html>

@@ -15,6 +15,13 @@
         a{
         color: white;
         }
+
+        input:focus{
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
+}
     </style>
 
 </head>
@@ -31,7 +38,7 @@
 <form action="load" method="GET">
     <p style="color: white;text-align:center;!">
 
-        Search: <input type="text" name="query" value="" />
+        <input style="width:430px; height:33px; box-sizing: border-box; padding: 1px 2px; border-radius:10px;" type="text" name="query" value="" />
 
         <input type="submit"/>
         <label>
@@ -44,7 +51,7 @@
 
 <div class="container text-center">
 
-    <div style="width:50%;">
+    <div style="width:50%; float:left;">
 
         <div th:each="k:${map.keySet()}" class="col">
             <a th:href="${k}"><p th:text = "${map.get(k)}"></a>
@@ -52,8 +59,9 @@
 
     </div>
 
-
-
+    <div>
+        <img style="float:right;" src="https://imgpp.ztupic.com/bup/so/20211110/df5d5d988475b6b16fafaba78a736de6-1.jpg?x-oss-process=image/crop,w_1024,h_1542/resize,h_812/quality,q_85/sharpen,100" width="200px" height="300px">
+    </div>
 
 </div>
 
