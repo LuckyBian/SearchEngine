@@ -26,19 +26,9 @@ public class SearchEngineApplication {
     public static URL urls = new URL();
     public static PURL purls = new PURL();
 
-    public static List<KURL> kurls = new ArrayList<KURL>();
+    public static List<KURL> kurls = new ArrayList<>();
 
-    public static List<String> keywords = new ArrayList<String>();
-
-    // 其他类获取三个变量
-
-    public static PURL getPurls() {
-        return purls;
-    }
-
-    public static URL getUrls() {
-        return urls;
-    }
+    public static List<String> keywords = new ArrayList<>();
 
     public static List<KURL> getKurls() {
         return kurls;
@@ -75,7 +65,7 @@ public class SearchEngineApplication {
             if(urls.urls.size() > 0){
                 //将所有内容包括标签提取出来
                 String content = m.loadWebPage(urls.urls.get(0));
-                String title = new String();
+                String title = "";
 
                 //正则表达式提取标题
                 String pattern = "<title>([\\s\\S]*?)</title>";
@@ -86,26 +76,24 @@ public class SearchEngineApplication {
                     title = title.replace("\t","");
                     title = title.replaceAll("\r","");
                     title = title.replaceAll("\\p{Punct}", "");
-                    String[] words = title.split(" ");
+                    //String[] words = title.split(" ");
                 }
 
                 //提取内容
                 String text = m.loadPlainText(urls.urls.get(0));
                 //提取keywords
-                List cleantext = m.extraKey(text);
+                List<String> cleantext = m.extraKey(text);
 
-                for(int k = 0; k < cleantext.size(); k++){
-                    String keyword = (String) cleantext.get(k);
+                for (String keyword : cleantext) {
                     String url = urls.urls.get(0);
 
-                    if(!keywords.contains(keyword)){
+                    if (!keywords.contains(keyword)) {
                         keywords.add(keyword);
-                        KURL l = new KURL(keyword,title,url);
+                        KURL l = new KURL(keyword, title, url);
                         kurls.add(l);
-                    }
-                    else{
+                    } else {
                         int index = keywords.indexOf(keyword);
-                        if(!kurls.get(index).urls.equals(url)){
+                        if (!kurls.get(index).urls.contains(url)) {
                             kurls.get(index).urls.add(url);
                             kurls.get(index).title.add(title);
                         }
@@ -113,7 +101,7 @@ public class SearchEngineApplication {
                 }
 
                 //正则表达式提取链接
-                String pattern2 = "<a[^>]*href=\\\"((http|www)[^\\\\\\\"]*)\\\"";
+                String pattern2 = "<a[^>]*href=\"((http|www)[^\\\\\"]*)\"";
                 Pattern r2 = Pattern.compile(pattern2);
                 Matcher m2 = r2.matcher(content);
 
@@ -136,6 +124,5 @@ public class SearchEngineApplication {
             System.out.println("The number websites: "+urls.urls.size());
             System.out.println("The number of identified websites: "+purls.purls.size());
         }
-
     }
 }

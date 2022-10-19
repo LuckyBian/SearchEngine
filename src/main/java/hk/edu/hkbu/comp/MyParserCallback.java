@@ -1,9 +1,9 @@
 package hk.edu.hkbu.comp;
 
 import hk.edu.hkbu.comp.tables.KURL;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+//import org.springframework.web.bind.annotation.GetMapping;
+//import org.springframework.web.bind.annotation.RequestParam;
+//import org.springframework.web.bind.annotation.ResponseBody;
 import org.tartarus.snowball.ext.englishStemmer;
 import org.yaml.snakeyaml.nodes.Tag;
 
@@ -21,8 +21,8 @@ import java.util.regex.Pattern;
 
 
 public class MyParserCallback extends HTMLEditorKit.ParserCallback {
-    public String content = new String();
-    public List<String> urls = new ArrayList<String>();
+    public String content = "";
+    public List<String> urls = new ArrayList<>();
 
     String loadPlainText(String urlString) throws IOException {
         MyParserCallback callback = new MyParserCallback();
@@ -35,6 +35,7 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
         return callback.content;
     }
 
+    /*
     public static List<String> getUniqueWords(String text) {
         String[] words = text.split("[0-9\\W]+");
         ArrayList<String> uniqueWords = new ArrayList<String>();
@@ -48,15 +49,26 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
 
         return uniqueWords;
     }
+    */
 
-    public List extraKey(String text){
+    public List<String> extraKey(String text){
 
         String[] result = text.split("[\\p{Punct}\\s]+");
-        List<String> lastversion = new ArrayList<String>();
+        List<String> lastversion = new ArrayList<>();
 
-        String[] blabklist = new String[]{"a","an","the","be"};
+        String[] blabklist = new String[]{"a","an","the","be","about",
+        "above","after","again","all","and","any","as","at","because",
+        "been","before","below","between","both","but","by","cannot",
+        "can","ourselves","out","same","she","should","so","some",
+        "such","some","than","that","their","then","there","here",
+        "these","they","this","do","during","each","few","for","from",
+        "further","had","have","he","she","her","how","i","to","too",
+        "under","up","until","very","we","what","where","when","why",
+        "if","in","into","more","most","no","nor","of","off","on",
+        "once","only","or","other","ought","you"};
 
         for(int i = 0; i < result.length; i++){
+            result[i] = result[i].toLowerCase();
             if(is_alpha(result[i])){
                 englishStemmer stemmer = new englishStemmer();
                 stemmer.setCurrent(result[i]);
@@ -76,7 +88,7 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
 
     String loadWebPage(String urlString) {
         byte[] buffer = new byte[1024];
-        String content = new String();
+        String content = "";
 
         try {
 
@@ -105,7 +117,7 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
     public static Map<String,String> onesearch(String text){
         List<KURL> table3 = SearchEngineApplication.getKurls();
 
-        List keywordList = SearchEngineApplication.keywords;
+        List<String> keywordList = SearchEngineApplication.keywords;
         int webIndex = keywordList.indexOf(text);
         KURL kurls = new KURL();
         kurls = table3.get(webIndex);
@@ -119,7 +131,7 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
 
     public static Map<String,String> andsearch(String text1,String text2){
         List<KURL> table3 = SearchEngineApplication.getKurls();
-        List keywordList = SearchEngineApplication.keywords;
+        List<String> keywordList = SearchEngineApplication.keywords;
 
         int webIndex1 = keywordList.indexOf(text1);
         int webIndex2 = keywordList.indexOf(text2);
@@ -141,7 +153,7 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
 
     public static Map<String,String> notsearch(String text1,String text2){
         List<KURL> table3 = SearchEngineApplication.getKurls();
-        List keywordList = SearchEngineApplication.keywords;
+        List<String> keywordList = SearchEngineApplication.keywords;
 
         int webIndex1 = keywordList.indexOf(text1);
         int webIndex2 = keywordList.indexOf(text2);
@@ -169,7 +181,7 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
 
     public static Map<String,String> orsearch(String text1,String text2){
         List<KURL> table3 = SearchEngineApplication.getKurls();
-        List keywordList = SearchEngineApplication.keywords;
+        List<String> keywordList = SearchEngineApplication.keywords;
 
         int webIndex1 = keywordList.indexOf(text1);
         int webIndex2 = keywordList.indexOf(text2);
@@ -193,6 +205,7 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
         return map;
     }
 
+    /*
     public void handleStartTag(Tag tag, MutableAttributeSet attrSet, int pos)
     {
         if (tag.toString().equals("a")) {
@@ -211,11 +224,16 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
             }
         }
     }
+     */
 
+    /*
     public boolean isAbsURL(String str) {
         return str.matches("^[a-z0-9]+://.+");
     }
 
+     */
+
+    /*
     URL toAbsURL(String str, URL ref) throws MalformedURLException {
         URL url = null;
 
@@ -233,6 +251,8 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
 
         return url;
     }
+
+     */
 
     public boolean is_alpha(String str) {
         if(str==null) return false;
@@ -270,12 +290,12 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
         if(words.length > 30){
             return false;
         }
-        //System.out.println(title);
         return true;
     }
 
 
 
+    /*
     List<String> getURLs(String srcPage) throws IOException {
         URL url = new URL(srcPage);
         InputStreamReader reader = new InputStreamReader(url.openStream());
@@ -292,6 +312,7 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
 
         return callback.urls;
     }
+     */
 
 
     @Override

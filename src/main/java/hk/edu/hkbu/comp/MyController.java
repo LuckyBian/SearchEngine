@@ -64,6 +64,7 @@ public class MyController {
             if(wordNumber == 1){
 
                 words[0] = MyParserCallback.stem(words[0]);
+                words[0] = words[0].toLowerCase();
                 if(keywordList.contains(words[0])){
                     Map<String,String> map = new HashMap<>();
                     map = MyParserCallback.onesearch(words[0]);
@@ -77,7 +78,9 @@ public class MyController {
 
             else if(wordNumber == 2){
                 words[0] = MyParserCallback.stem(words[0]);
+                words[0] = words[0].toLowerCase();
                 words[1] = MyParserCallback.stem(words[1]);
+                words[1] = words[1].toLowerCase();
 
                 if(keywordList.contains(words[0])){
                     if(keywordList.contains(words[1])){
