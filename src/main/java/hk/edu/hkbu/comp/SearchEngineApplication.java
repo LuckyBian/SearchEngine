@@ -51,25 +51,25 @@ public class SearchEngineApplication {
         // seed URL，从这里开始
         String firstUrl = "https://biol.hkbu.edu.hk/";
         // 添加进去
-        urls.urls.add(firstUrl);
+        urls.add(firstUrl);
 
         // 开始循环，存储数据
         while(V > purls.purls.size()){
-            if (urls.urls.size() == 0) {
+            if (urls.size() == 0) {
                 log.warn("No more URL to process");
                 break;
             }
 
             //判断当前链接是否符合要求，可以新添加，目前有中英文，长度
-            if(!m.goodweb(urls.urls.get(0))){
-                urls.urls.remove(0);
+            if(!m.goodweb(urls.get(0))){
+                urls.remove(0);
                 continue;
             }
 
             // 如果符合，且有链接，开始提取
-            if(urls.urls.size() > 0){
+            if(urls.size() > 0){
                 //将所有内容包括标签提取出来
-                String content = m.loadWebPage(urls.urls.get(0));
+                String content = m.loadWebPage(urls.get(0));
                 String title = "";
 
                 //正则表达式提取标题
@@ -85,12 +85,12 @@ public class SearchEngineApplication {
                 }
 
                 //提取内容
-                String text = m.loadPlainText(urls.urls.get(0));
+                String text = m.loadPlainText(urls.get(0));
                 //提取keywords
                 List<String> cleantext = m.extraKey(text);
 
                 for (String keyword : cleantext) {
-                    String url = urls.urls.get(0);
+                    String url = urls.get(0);
 
                     if (!keywords.contains(keyword)) {
                         keywords.add(keyword);
@@ -112,21 +112,21 @@ public class SearchEngineApplication {
 
                 // 将新的链接进行存储
                 while (m2.find()){
-                    if (!urls.urls.contains(m2.group(1)) && !purls.purls.contains(m2.group(1))){
-                        if(urls.urls.size() < U){
-                            urls.urls.add(m2.group(1));
+                    if (!urls.contains(m2.group(1)) && !purls.purls.contains(m2.group(1))){
+                        if(urls.size() < U){
+                            urls.add(m2.group(1));
                         }
                     }
                 }
 
                     //将目前链接导入PIRL
-                if(!purls.purls.contains(urls.urls.get(0))){
-                    purls.purls.add(urls.urls.get(0));
+                if(!purls.purls.contains(urls.get(0))){
+                    purls.purls.add(urls.get(0));
                 }
-                urls.urls.remove(0);
+                urls.remove(0);
             }
             //输出链接数量
-            System.out.println("The number websites: "+urls.urls.size());
+            System.out.println("The number websites: "+urls.size());
             System.out.println("The number of identified websites: "+purls.purls.size());
         }
     }
