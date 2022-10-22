@@ -54,7 +54,7 @@ public class SearchEngineApplication {
         urls.add(firstUrl);
 
         // 开始循环，存储数据
-        while(V > purls.purls.size()){
+        while(V > purls.size()){
             if (urls.size() == 0) {
                 log.warn("No more URL to process");
                 break;
@@ -112,7 +112,7 @@ public class SearchEngineApplication {
 
                 // 将新的链接进行存储
                 while (m2.find()){
-                    if (!urls.contains(m2.group(1)) && !purls.purls.contains(m2.group(1))){
+                    if (!urls.contains(m2.group(1)) && !purls.contains(m2.group(1))){
                         if(urls.size() < U){
                             urls.add(m2.group(1));
                         }
@@ -120,14 +120,14 @@ public class SearchEngineApplication {
                 }
 
                     //将目前链接导入PIRL
-                if(!purls.purls.contains(urls.get(0))){
-                    purls.purls.add(urls.get(0));
+                if(!purls.contains(urls.get(0))){
+                    purls.add(urls.get(0));
                 }
                 urls.remove(0);
             }
             //输出链接数量
             System.out.println("The number websites: "+urls.size());
-            System.out.println("The number of identified websites: "+purls.purls.size());
+            System.out.println("The number of identified websites: "+purls.size());
         }
     }
 }

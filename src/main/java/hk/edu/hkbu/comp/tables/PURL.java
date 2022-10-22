@@ -4,5 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PURL {
-    public List<String> purls = new ArrayList<String>();
+    private List<String> purls = new ArrayList<String>();
+
+    public int size() {
+        return purls.size();
+    }
+
+    public boolean contains(String s) {
+        return purls.contains(s);
+    }
+
+    public boolean add(String s) {
+        return purls.add(s);
+    }
 }
