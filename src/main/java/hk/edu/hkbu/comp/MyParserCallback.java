@@ -287,9 +287,6 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
 
         String[] words = title.split(" ");
 
-        if(words.length > 30){
-            return false;
-        }
         return true;
     }
 
