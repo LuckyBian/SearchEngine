@@ -4,7 +4,6 @@ import hk.edu.hkbu.comp.tables.KURL;
 //import org.springframework.web.bind.annotation.GetMapping;
 //import org.springframework.web.bind.annotation.RequestParam;
 //import org.springframework.web.bind.annotation.ResponseBody;
-import lombok.extern.log4j.Log4j2;
 import org.tartarus.snowball.ext.englishStemmer;
 import org.yaml.snakeyaml.nodes.Tag;
 
@@ -20,7 +19,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-@Log4j2
 public class MyParserCallback extends HTMLEditorKit.ParserCallback {
     public String content = "";
     public List<String> urls = new ArrayList<>();
@@ -102,11 +100,8 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
                 content.append(line);
             }
 
-        } catch (Exception e) {
-
-            log.error("Unable to download the page", e);
-            content.append("<h1>Unable to download the page</h1>" + urlString);
-
+        } catch (IOException e) {
+            content = new StringBuilder("<h1>Unable to download the page</h1>" + urlString);
         }
 
         return content.toString();
