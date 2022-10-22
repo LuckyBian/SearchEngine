@@ -60,16 +60,16 @@ public class SearchEngineApplication {
                 break;
             }
 
-            //判断当前链接是否符合要求，可以新添加，目前有中英文，长度
-            if(!m.goodweb(urls.get(0))){
-                urls.remove(0);
-                continue;
-            }
-
-            // 如果符合，且有链接，开始提取
             if(urls.size() > 0){
                 //将所有内容包括标签提取出来
                 String content = m.loadWebPage(urls.get(0));
+                //判断内容是否符合要求，可以新添加，目前有中英文，长度
+                if(!m.goodweb(content)) {
+                    urls.remove(0);
+                    continue;
+                }
+
+                // 如果符合，且有链接，开始提取
                 String title = "";
 
                 //正则表达式提取标题
@@ -85,7 +85,7 @@ public class SearchEngineApplication {
                 }
 
                 //提取内容
-                String text = m.loadPlainText(urls.get(0));
+                String text = m.loadPlainText(content);
                 //提取keywords
                 List<String> cleantext = m.extraKey(text);
 
@@ -95,6 +95,7 @@ public class SearchEngineApplication {
                     if (!keywords.contains(keyword)) {
                         keywords.add(keyword);
                         KURL l = new KURL(keyword, title, url);
+
                         kurls.add(l);
                     } else {
                         int index = keywords.indexOf(keyword);
