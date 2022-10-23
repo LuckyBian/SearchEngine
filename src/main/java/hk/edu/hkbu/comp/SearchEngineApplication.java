@@ -9,7 +9,10 @@ import hk.edu.hkbu.comp.tables.KURL;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 //这个是程序的主入口
@@ -28,13 +31,14 @@ public class SearchEngineApplication {
     public static URL urls = new URL();
     public static PURL purls = new PURL();
 
-    public static List<KURL> kurls = new ArrayList<>();
+    public static List<KURL> kurls = Collections.synchronizedList(new ArrayList<>());
 
     public static List<String> keywords = new ArrayList<>();
 
     public static List<KURL> getKurls() {
         return kurls;
     }
+    private static final Object lockObj = new Object();
 
     //程序开始
     public static void main(String[] args) throws IOException {
@@ -54,18 +58,30 @@ public class SearchEngineApplication {
         urls.add(firstUrl);
 
         // 开始循环，存储数据
-        while(V > purls.size()){
-            if (urls.size() == 0) {
-                log.warn("No more URL to process");
-                break;
-            }
+        Runnable processWeb = () -> {
 
-            if(urls.size() > 0){
-                //将所有内容包括标签提取出来
-                String content = m.loadWebPage(urls.get(0));
+            while(true) {
+                String currUrl = "";
+                // Critical section 1 (Get a url for processing)
+                synchronized (lockObj) {
+                    if (urls.size() > 0) {
+                        //将所有内容包括标签提取出来
+                        currUrl = urls.remove(0);
+                    } else {
+                        try {
+                            lockObj.wait(3000);
+                            continue;
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                // Critical section 1 end
+
+                // Non-Critical section (Network IO + Parsing)
+                String content = m.loadWebPage(currUrl);
                 //判断内容是否符合要求，可以新添加，目前有中英文，长度
-                if(!m.goodweb(content)) {
-                    urls.remove(0);
+                if (!m.goodweb(content)) {
                     continue;
                 }
 
@@ -85,50 +101,69 @@ public class SearchEngineApplication {
                 }
 
                 //提取内容
-                String text = m.loadPlainText(content);
+                String text = "";
+                try {
+                    text = m.loadPlainText(content);
+                } catch (IOException e) {
+                    log.error("Failed to parse page");
+                    e.printStackTrace();
+                }
                 //提取keywords
                 List<String> cleantext = m.extraKey(text);
+                // Non-Critical section end
 
-                for (String keyword : cleantext) {
-                    String url = urls.get(0);
+                // Critical section 2
+                synchronized (lockObj) {
+                    if (purls.size() >= V) {
+                        break;
+                    }
+                    for (String keyword : cleantext) {
 
-                    if (!keywords.contains(keyword)) {
-                        keywords.add(keyword);
-                        KURL l = new KURL(keyword, title, url);
+                        if (!keywords.contains(keyword)) {
+                            keywords.add(keyword);
+                            KURL l = new KURL(keyword, title, currUrl);
 
-                        kurls.add(l);
-                    } else {
-                        int index = keywords.indexOf(keyword);
-                        if (!kurls.get(index).urls.contains(url)) {
-                            kurls.get(index).urls.add(url);
-                            kurls.get(index).title.add(title);
+                            kurls.add(l);
+                        } else {
+                            int index = keywords.indexOf(keyword);
+                            if (!kurls.get(index).urls.contains(currUrl)) {
+                                kurls.get(index).urls.add(currUrl);
+                                kurls.get(index).title.add(title);
+                            }
                         }
                     }
-                }
 
-                //正则表达式提取链接
-                String pattern2 = "<a[^>]*href=\"((http|www)[^\\\\\"]*)\"";
-                Pattern r2 = Pattern.compile(pattern2);
-                Matcher m2 = r2.matcher(content);
+                    //正则表达式提取链接
+                    String pattern2 = "<a[^>]*href=\"((http|www)[^\\\\\"]*)\"";
+                    Pattern r2 = Pattern.compile(pattern2);
+                    Matcher m2 = r2.matcher(content);
 
-                // 将新的链接进行存储
-                while (m2.find()){
-                    if (!urls.contains(m2.group(1)) && !purls.contains(m2.group(1))){
-                        if(urls.size() < U){
-                            urls.add(m2.group(1));
+                    // 将新的链接进行存储
+                    while (m2.find()) {
+                        if (!urls.contains(m2.group(1)) && !purls.contains(m2.group(1))) {
+                            if (urls.size() < U) {
+                                urls.add(m2.group(1));
+                            }
                         }
                     }
-                }
 
                     //将目前链接导入PIRL
-                if(!purls.contains(urls.get(0))){
-                    purls.add(urls.get(0));
+                    if (!purls.contains(currUrl)) {
+                        purls.add(currUrl);
+                    }
+
+                    //输出链接数量
+                    log.info("The number websites: {}", urls.size());
+                    log.info("The number of identified websites: {}", purls.size());
                 }
-                urls.remove(0);
+                // Critical section 2 end
             }
-            //输出链接数量
-            System.out.println("The number websites: "+urls.size());
-            System.out.println("The number of identified websites: "+purls.size());
+        };
+
+        final int N_THREAD = 10;
+        ExecutorService es = Executors.newFixedThreadPool(N_THREAD);
+        for (int i = 0; i < N_THREAD; i++) {
+            es.execute(processWeb);
         }
     }
 }

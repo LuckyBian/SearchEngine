@@ -3,11 +3,12 @@ package hk.edu.hkbu.comp.tables;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Log4j2
 public class URL {
-    private List<String> urls = new ArrayList<>();
+    private List<String> urls = Collections.synchronizedList(new ArrayList<>());
 
     public boolean add(String url) {
         urls.add(url);
