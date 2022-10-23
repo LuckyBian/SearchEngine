@@ -140,9 +140,10 @@ public class SearchEngineApplication {
 
                     // 将新的链接进行存储
                     while (m2.find()) {
-                        if (!urls.contains(m2.group(1)) && !purls.contains(m2.group(1))) {
+                        String newUrl = m2.group(1);
+                        if (!currUrl.equals(newUrl) && !urls.contains(newUrl) && !purls.contains(newUrl)) {
                             if (urls.size() < U) {
-                                urls.add(m2.group(1));
+                                urls.add(newUrl);
                             }
                         }
                     }
