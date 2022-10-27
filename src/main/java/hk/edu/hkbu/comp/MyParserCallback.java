@@ -11,9 +11,8 @@ import org.yaml.snakeyaml.nodes.Tag;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.html.*;
 import javax.swing.text.html.parser.*;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
@@ -90,16 +89,18 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
 
     String loadWebPage(String urlString) {
         byte[] buffer = new byte[1024];
-        String content = "";
+        StringBuilder content = new StringBuilder();
 
         try {
 
             URL url = new URL(urlString);
             InputStream in = url.openStream();
-            int len;
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
 
-            while((len = in.read(buffer)) != -1)
-                content += new String(buffer);
+            String line;
+            while((line = br.readLine()) != null) {
+                content.append(line);
+            }
 
         } catch (Exception e) {
 
@@ -108,7 +109,7 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
 
         }
 
-        return content;
+        return content.toString();
     }
 
     public static String stem(String text){
@@ -290,9 +291,6 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
 
         String[] words = title.split(" ");
 
-        if(words.length > 30){
-            return false;
-        }
         return true;
     }
 
