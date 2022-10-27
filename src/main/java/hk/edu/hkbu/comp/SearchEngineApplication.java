@@ -1,5 +1,6 @@
 package hk.edu.hkbu.comp;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import hk.edu.hkbu.comp.tables.URL;
@@ -15,6 +16,7 @@ import java.util.regex.Pattern;
 // 网站对应链接---> Mycontroller
 
 @SpringBootApplication
+@Log4j2
 public class SearchEngineApplication {
 
     //建立static变量，存储要求的三个table
@@ -48,12 +50,15 @@ public class SearchEngineApplication {
 
         // seed URL，从这里开始
         String firstUrl = "https://biol.hkbu.edu.hk/";
-
         // 添加进去
         urls.urls.add(firstUrl);
 
         // 开始循环，存储数据
         while(V > purls.purls.size()){
+            if (urls.urls.size() == 0) {
+                log.warn("No more URL to process");
+                break;
+            }
 
             //判断当前链接是否符合要求，可以新添加，目前有中英文，长度
             if(!m.goodweb(urls.urls.get(0))){
