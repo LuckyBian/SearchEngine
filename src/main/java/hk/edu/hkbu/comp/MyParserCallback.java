@@ -105,7 +105,7 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
         } catch (Exception e) {
 
             log.error("Unable to download the page", e);
-            content = "<h1>Unable to download the page</h1>" + urlString;
+            content.append("<h1>Unable to download the page</h1>" + urlString);
 
         }
 
