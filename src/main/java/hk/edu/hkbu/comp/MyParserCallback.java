@@ -4,7 +4,6 @@ import hk.edu.hkbu.comp.tables.KURL;
 //import org.springframework.web.bind.annotation.GetMapping;
 //import org.springframework.web.bind.annotation.RequestParam;
 //import org.springframework.web.bind.annotation.ResponseBody;
-import lombok.extern.log4j.Log4j2;
 import org.tartarus.snowball.ext.englishStemmer;
 import org.yaml.snakeyaml.nodes.Tag;
 
@@ -15,22 +14,22 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-@Log4j2
 public class MyParserCallback extends HTMLEditorKit.ParserCallback {
     public String content = "";
     public List<String> urls = new ArrayList<>();
 
-    String loadPlainText(String urlString) throws IOException {
+    String loadPlainText(String html) throws IOException {
         MyParserCallback callback = new MyParserCallback();
         ParserDelegator parser = new ParserDelegator();
 
-        URL url = new URL(urlString);
-        InputStreamReader reader = new InputStreamReader(url.openStream());
+        InputStreamReader reader = new InputStreamReader(
+                new ByteArrayInputStream(html.getBytes(StandardCharsets.UTF_8)));
         parser.parse(reader, callback, true);
 
         return callback.content;
@@ -102,11 +101,8 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
                 content.append(line);
             }
 
-        } catch (Exception e) {
-
-            log.error("Unable to download the page", e);
-            content.append("<h1>Unable to download the page</h1>" + urlString);
-
+        } catch (IOException e) {
+            content = new StringBuilder("<h1>Unable to download the page</h1>" + urlString);
         }
 
         return content.toString();
@@ -264,8 +260,7 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
     }
 
 
-    public Boolean goodweb(String url){
-        String content = loadWebPage(url);
+    public Boolean goodweb(String content){
         String pattern = "<title>([\\s\\S]*?)</title>";
         Pattern r = Pattern.compile(pattern);
         Matcher m1 = r.matcher(content);
