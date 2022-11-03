@@ -1,11 +1,9 @@
 package hk.edu.hkbu.comp;
 
-import lombok.extern.log4j.Log4j2;
+import hk.edu.hkbu.comp.tables.*;
+import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import hk.edu.hkbu.comp.tables.URL;
-import hk.edu.hkbu.comp.tables.PURL;
-import hk.edu.hkbu.comp.tables.KURL;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,8 +17,8 @@ import java.util.regex.Pattern;
 // 网站对应链接---> Mycontroller
 
 @SpringBootApplication
-@Log4j2
 public class SearchEngineApplication {
+    private static final Logger log = org.apache.logging.log4j.LogManager.getLogger(SearchEngineApplication.class);
 
     //建立static变量，存储要求的三个table
 
@@ -32,6 +30,8 @@ public class SearchEngineApplication {
     public static PURL purls = new PURL();
 
     public static List<KURL> kurls = Collections.synchronizedList(new ArrayList<>());
+
+    public static DataTable dataTable = new DataTable();
 
     public static List<String> keywords = new ArrayList<>();
 
@@ -110,6 +110,8 @@ public class SearchEngineApplication {
                 }
                 //提取keywords
                 List<String> cleantext = m.extraKey(text);
+                // Build PageInfo
+                PageInfo pageInfo = new PageInfo(currUrl, title);
                 // Non-Critical section end
 
                 // Critical section 2
@@ -119,18 +121,19 @@ public class SearchEngineApplication {
                     }
                     for (String keyword : cleantext) {
 
-                        if (!keywords.contains(keyword)) {
-                            keywords.add(keyword);
-                            KURL l = new KURL(keyword, title, currUrl);
-
-                            kurls.add(l);
-                        } else {
-                            int index = keywords.indexOf(keyword);
-                            if (!kurls.get(index).urls.contains(currUrl)) {
-                                kurls.get(index).urls.add(currUrl);
-                                kurls.get(index).title.add(title);
-                            }
-                        }
+//                        if (!keywords.contains(keyword)) {
+//                            keywords.add(keyword);
+//                            KURL l = new KURL(keyword, title, currUrl);
+//
+//                            kurls.add(l);
+//                        } else {
+//                            int index = keywords.indexOf(keyword);
+//                            if (!kurls.get(index).urls.contains(currUrl)) {
+//                                kurls.get(index).urls.add(currUrl);
+//                                kurls.get(index).title.add(title);
+//                            }
+//                        }
+                        dataTable.add(keyword, pageInfo);
                     }
 
                     //正则表达式提取链接
