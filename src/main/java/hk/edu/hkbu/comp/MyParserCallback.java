@@ -4,6 +4,7 @@ import hk.edu.hkbu.comp.tables.KURL;
 //import org.springframework.web.bind.annotation.GetMapping;
 //import org.springframework.web.bind.annotation.RequestParam;
 //import org.springframework.web.bind.annotation.ResponseBody;
+import hk.edu.hkbu.comp.tables.PageInfo;
 import org.tartarus.snowball.ext.englishStemmer;
 import org.yaml.snakeyaml.nodes.Tag;
 
@@ -114,95 +115,29 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
         return stemmer.getCurrent();
     }
 
-    public static Map<String,String> onesearch(String text){
-        List<KURL> table3 = SearchEngineApplication.getKurls();
-
-        List<String> keywordList = SearchEngineApplication.keywords;
-        int webIndex = keywordList.indexOf(text);
-        KURL kurls = new KURL();
-        kurls = table3.get(webIndex);
-
-        Map<String,String> map = new HashMap<>();
-        for(int j = 0 ; j < kurls.getTitle().size();j++){
-            map.put(kurls.getUrls().get(j),kurls.getTitle().get(j));
-        }
-        return map;
+    public static Set<PageInfo> onesearch(String text){
+        return SearchEngineApplication.dataTable.search(text);
     }
 
-    public static Map<String,String> andsearch(String text1,String text2){
-        List<KURL> table3 = SearchEngineApplication.getKurls();
-        List<String> keywordList = SearchEngineApplication.keywords;
-
-        int webIndex1 = keywordList.indexOf(text1);
-        int webIndex2 = keywordList.indexOf(text2);
-
-        KURL kurls1 = new KURL();
-        kurls1 = table3.get(webIndex1);
-
-        KURL kurls2 = new KURL();
-        kurls2 = table3.get(webIndex2);
-
-        Map<String,String> map = new HashMap<>();
-        for(int j = 0 ; j < kurls1.getTitle().size(); j++){
-            if(kurls2.getUrls().contains(kurls1.getUrls().get(j))){
-                map.put(kurls1.getUrls().get(j),kurls1.getTitle().get(j));
-            }
-        }
-        return map;
+    public static Set<PageInfo> andsearch(String text1,String text2){
+        Set<PageInfo> result1 = SearchEngineApplication.dataTable.search(text1);
+        Set<PageInfo> result2 = SearchEngineApplication.dataTable.search(text2);
+        result1.retainAll(result2);
+        return result1;
     }
 
-    public static Map<String,String> notsearch(String text1,String text2){
-        List<KURL> table3 = SearchEngineApplication.getKurls();
-        List<String> keywordList = SearchEngineApplication.keywords;
-
-        int webIndex1 = keywordList.indexOf(text1);
-        int webIndex2 = keywordList.indexOf(text2);
-
-        KURL kurls1 = new KURL();
-        kurls1 = table3.get(webIndex1);
-
-        KURL kurls2 = new KURL();
-        kurls2 = table3.get(webIndex2);
-
-        Map<String,String> map = new HashMap<>();
-        for(int j = 0 ; j < kurls1.getTitle().size(); j++){
-            if(!kurls2.getUrls().contains(kurls1.getUrls().get(j))){
-                map.put(kurls1.getUrls().get(j),kurls1.getTitle().get(j));
-            }
-        }
-
-        for(int j = 0 ; j < kurls2.getTitle().size(); j++){
-            if(!kurls1.getUrls().contains(kurls2.getUrls().get(j))){
-                map.put(kurls2.getUrls().get(j),kurls2.getTitle().get(j));
-            }
-        }
-        return map;
+    public static Set<PageInfo> notsearch(String text1,String text2){
+        Set<PageInfo> result1 = SearchEngineApplication.dataTable.search(text1);
+        Set<PageInfo> result2 = SearchEngineApplication.dataTable.search(text2);
+        result1.removeAll(result2);
+        return result1;
     }
 
-    public static Map<String,String> orsearch(String text1,String text2){
-        List<KURL> table3 = SearchEngineApplication.getKurls();
-        List<String> keywordList = SearchEngineApplication.keywords;
-
-        int webIndex1 = keywordList.indexOf(text1);
-        int webIndex2 = keywordList.indexOf(text2);
-
-        KURL kurls1 = new KURL();
-        kurls1 = table3.get(webIndex1);
-
-        KURL kurls2 = new KURL();
-        kurls2 = table3.get(webIndex2);
-
-        Map<String,String> map = new HashMap<>();
-        for(int j = 0 ; j < kurls2.getTitle().size(); j++){
-            map.put(kurls2.getUrls().get(j),kurls2.getTitle().get(j));
-        }
-
-        for(int j = 0 ; j < kurls1.getTitle().size(); j++){
-            if(!kurls2.getUrls().contains(kurls1.getUrls().get(j))){
-                map.put(kurls1.getUrls().get(j),kurls1.getTitle().get(j));
-            }
-        }
-        return map;
+    public static Set<PageInfo> orsearch(String text1,String text2){
+        Set<PageInfo> result1 = SearchEngineApplication.dataTable.search(text1);
+        Set<PageInfo> result2 = SearchEngineApplication.dataTable.search(text2);
+        result1.addAll(result2);
+        return result1;
     }
 
     /*
