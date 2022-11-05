@@ -1,11 +1,12 @@
 package hk.edu.hkbu.comp.tables;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class DataTable {
+public class DataTable implements Serializable {
     private Map<String, Set<PageInfo>> index = new HashMap<>();
     public void add(String key, PageInfo page) {
         Set<PageInfo> set = index.get(key);
