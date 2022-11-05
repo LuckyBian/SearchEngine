@@ -7,17 +7,18 @@ import javax.servlet.http.HttpServletResponse;
 import hk.edu.hkbu.comp.tables.DataTable;
 import hk.edu.hkbu.comp.tables.KURL;
 import hk.edu.hkbu.comp.tables.PageInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.tartarus.snowball.ext.englishStemmer;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.*;
 
+@Slf4j
 @Controller
 public class MyController {
     //如果没有额外mapping，跳转index.html
@@ -25,9 +26,19 @@ public class MyController {
     final String DATA_FILE_NAME = "data_table.ser";
     DataTable dataTable;
 
-    public MyController() throws IOException, ClassNotFoundException {
-        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(DATA_FILE_NAME));
-        dataTable = (DataTable) ois.readObject();
+    public MyController() throws IOException, InterruptedException, ClassNotFoundException {
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(new FileInputStream(DATA_FILE_NAME));
+            dataTable = (DataTable) ois.readObject();
+            log.info("Using previously scraped data in {}", DATA_FILE_NAME);
+        } catch (Exception e) {
+            log.warn("{}", e.getMessage());
+            log.warn("Data file not found or corrupted. Re-scraping data...");
+            new DataScraper().run();
+            ois = new ObjectInputStream(new FileInputStream(DATA_FILE_NAME));
+            dataTable = (DataTable) ois.readObject();
+        }
     }
 
     //@ResponseBody
