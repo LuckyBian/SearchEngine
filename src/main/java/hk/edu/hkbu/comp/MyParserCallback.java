@@ -57,16 +57,27 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
         String[] result = text.split("[\\p{Punct}\\s]+");
         List<String> lastversion = new ArrayList<>();
 
-        String[] blabklist = new String[]{"a","an","the","be","about",
-        "above","after","again","all","and","any","as","at","because",
-        "been","before","below","between","both","but","by","cannot",
-        "can","ourselves","out","same","she","should","so","some",
-        "such","some","than","that","their","then","there","here",
-        "these","they","this","do","during","each","few","for","from",
-        "further","had","have","he","she","her","how","i","to","too",
-        "under","up","until","very","we","what","where","when","why",
-        "if","in","into","more","most","no","nor","of","off","on",
-        "once","only","or","other","ought","you"};
+        String[] blabklist = new String[]{"a","an,the","do","does","did","has","have",
+        "had","is","am","are","was","were","be","being","been","may","must","might",
+        "should","could","would","shall","will","can","ought","when","why","how","all",
+        "another","any","anybody","anyone","anything","as","aught","both","each","other",
+        "either","enough","everybody","everyone","everything","few","he","her","hers","herself",
+        "him","himself","his","I","idem","it","its","itself","many","me","mine","most","my", "myself",
+        "naught", "neither","nobody","none","nothing","nought","another","other","others","ought",
+        "our","ours","ourself","ourselves","several","she","some","somebody","someone","something",
+        "somewhat","such","suchlike","that","thee","their","theirs","theirself","theirselves",
+        "them","themself","themselves","there","these","they","thine","this","those","thou",
+        "thy","thyself","us","we","what","whatever","whatnot","whatsoever","whence","where",
+        "whereby","wherefrom","wherein","whereinto","whereof","whereon","wherever","wheresoever",
+        "whereto","whereunto","wherewith","wherewithal","whether","which","whichever","whichsoever",
+        "who","whoever","whom","whomever","whomso","whomsoever","whose","whosever","whosesoever","whoso",
+        "whosoever","ye","yon","yonder","you","your","yours","yourself","yourselves","aboard",
+        "about","above","across","after","against","along","amid","among","around","as","at","before",
+        "behind","below","beneath","beside","between","beyond","but","by","concerning","considering",
+        "despite","down","during","except","following","for","from","in","inside","into",
+        "like","minus","near","next","of","off","on","onto","opposite","out","outside","over",
+        "past","per","plus","regarding","round","save","since","than","through","to",
+        "toward","under","underneath","unlike","until","up","upon","versus","via","with","within","without"};
 
         for(int i = 0; i < result.length; i++){
             result[i] = result[i].toLowerCase();
