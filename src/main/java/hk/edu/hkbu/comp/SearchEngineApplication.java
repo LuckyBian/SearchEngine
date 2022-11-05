@@ -196,7 +196,8 @@ public class SearchEngineApplication {
         }
         latch.await();
 
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("index.obj"));
+        final String DATA_FILE_NAME = "data_table.ser";
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(DATA_FILE_NAME));
         oos.writeObject(dataTable);
         oos.flush();
         oos.close();

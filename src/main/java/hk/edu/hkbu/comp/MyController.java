@@ -22,10 +22,11 @@ import java.util.*;
 public class MyController {
     //如果没有额外mapping，跳转index.html
 
+    final String DATA_FILE_NAME = "data_table.ser";
     DataTable dataTable;
 
     public MyController() throws IOException, ClassNotFoundException {
-        ObjectInputStream ois = new ObjectInputStream(new FileInputStream("index.obj"));
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(DATA_FILE_NAME));
         dataTable = (DataTable) ois.readObject();
     }
 
