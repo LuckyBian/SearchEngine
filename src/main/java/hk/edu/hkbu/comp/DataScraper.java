@@ -19,6 +19,7 @@ public class DataScraper {
     // Create two var to control the table size when read the webpages
     final int U = 10;
     final int V = 100;
+    final int N_THREADS = 10;
 
     // URL means the url need to be read
     private URL urls = new URL();
@@ -166,11 +167,9 @@ public class DataScraper {
             };
         };
 
-        // Start 10 threads
-        final int N_THREAD = 10;
-        ExecutorService es = Executors.newFixedThreadPool(N_THREAD);
-        CountDownLatch latch = new CountDownLatch(N_THREAD);
-        for (int i = 0; i < N_THREAD; i++) {
+        ExecutorService es = Executors.newFixedThreadPool(N_THREADS);
+        CountDownLatch latch = new CountDownLatch(N_THREADS);
+        for (int i = 0; i < N_THREADS; i++) {
             es.execute(processWeb.apply(latch));
         }
         latch.await();
