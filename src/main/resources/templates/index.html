@@ -53,8 +53,8 @@
 
     <div style="width:50%; float:left;">
 
-        <div th:each="k:${map.keySet()}" class="col">
-            <a th:href="${k}"><p th:text = "${map.get(k)}"></a>
+        <div th:each="k:${resultSet}" class="col">
+            <a th:href="${k.url}"><p th:text = "${k.title}"></a>
         </div>
 
     </div>
