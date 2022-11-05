@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import hk.edu.hkbu.comp.tables.DataTable;
-import hk.edu.hkbu.comp.tables.KURL;
 import hk.edu.hkbu.comp.tables.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -41,8 +40,8 @@ public class MyController {
     }
 
     //@ResponseBody
-    @RequestMapping("/load")
-    public String load(HttpServletRequest request,
+    @RequestMapping("/search")
+    public String search(HttpServletRequest request,
                        String query,
                        String scope,
                        HttpServletResponse response,

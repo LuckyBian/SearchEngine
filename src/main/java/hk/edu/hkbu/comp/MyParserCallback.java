@@ -1,4 +1,5 @@
 package hk.edu.hkbu.comp;
+
 import org.tartarus.snowball.ext.englishStemmer;
 import javax.swing.text.html.*;
 import javax.swing.text.html.parser.*;
@@ -12,7 +13,6 @@ import java.util.regex.Pattern;
 
 public class MyParserCallback extends HTMLEditorKit.ParserCallback {
     public String content = "";
-    public List<String> urls = new ArrayList<>();
 
     String loadPlainText(String html) throws IOException {
         MyParserCallback callback = new MyParserCallback();
