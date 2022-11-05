@@ -120,37 +120,6 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
         return content.toString();
     }
 
-    public static String stem(String text){
-        englishStemmer stemmer = new englishStemmer();
-        stemmer.setCurrent(text);
-        return stemmer.getCurrent();
-    }
-
-    public static Set<PageInfo> onesearch(String text){
-        return SearchEngineApplication.dataTable.search(text);
-    }
-
-    public static Set<PageInfo> andsearch(String text1,String text2){
-        Set<PageInfo> result1 = SearchEngineApplication.dataTable.search(text1);
-        Set<PageInfo> result2 = SearchEngineApplication.dataTable.search(text2);
-        result1.retainAll(result2);
-        return result1;
-    }
-
-    public static Set<PageInfo> notsearch(String text1,String text2){
-        Set<PageInfo> result1 = SearchEngineApplication.dataTable.search(text1);
-        Set<PageInfo> result2 = SearchEngineApplication.dataTable.search(text2);
-        result1.removeAll(result2);
-        return result1;
-    }
-
-    public static Set<PageInfo> orsearch(String text1,String text2){
-        Set<PageInfo> result1 = SearchEngineApplication.dataTable.search(text1);
-        Set<PageInfo> result2 = SearchEngineApplication.dataTable.search(text2);
-        result1.addAll(result2);
-        return result1;
-    }
-
     /*
     public void handleStartTag(Tag tag, MutableAttributeSet attrSet, int pos)
     {
