@@ -25,7 +25,6 @@ import java.util.regex.Pattern;
 public class SearchEngineApplication {
     private static final Logger log = org.apache.logging.log4j.LogManager.getLogger(SearchEngineApplication.class);
 
-
     //程序开始
     public static void main(String[] args) throws IOException, InterruptedException {
         // Start serving web
