@@ -102,6 +102,12 @@ public class MyController {
         }
     }
 
+    @GetMapping(value = "/raw-data", produces = "application/json")
+    @ResponseBody
+    public Map<String, Set<PageInfo>> rawData() {
+        return dataTable.getIndex();
+    }
+
     public Set<PageInfo> onesearch(String text){
         return dataTable.search(text);
     }
