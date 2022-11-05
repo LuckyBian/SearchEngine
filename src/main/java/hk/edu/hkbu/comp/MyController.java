@@ -21,8 +21,7 @@ import java.util.*;
 @Slf4j
 @Controller
 public class MyController {
-    //如果没有额外mapping，跳转index.html
-
+    //if there is no mapping or type something wrong，go to index.html
     final String DATA_FILE_NAME = "data_table.ser";
     DataTable dataTable;
 

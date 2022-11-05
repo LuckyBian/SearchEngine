@@ -9,13 +9,9 @@ import java.util.Set;
 
 public class DataTable implements Serializable {
     @Getter
-    private Map<String, Set<PageInfo>> index = new HashMap<>();
+    private final Map<String, Set<PageInfo>> index = new HashMap<>();
     public void add(String key, PageInfo page) {
-        Set<PageInfo> set = index.get(key);
-        if (set == null) {
-            set = new HashSet<>();
-            index.put(key, set);
-        }
+        Set<PageInfo> set = index.computeIfAbsent(key, k -> new HashSet<>());
         set.add(page);
     }
     public Set<PageInfo> search(String keyword) {

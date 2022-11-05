@@ -1,19 +1,8 @@
 package hk.edu.hkbu.comp;
-
-import hk.edu.hkbu.comp.tables.KURL;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.RequestParam;
-//import org.springframework.web.bind.annotation.ResponseBody;
-import hk.edu.hkbu.comp.tables.PageInfo;
 import org.tartarus.snowball.ext.englishStemmer;
-import org.yaml.snakeyaml.nodes.Tag;
-
-import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.html.*;
 import javax.swing.text.html.parser.*;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -36,27 +25,14 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
         return callback.content;
     }
 
-    /*
-    public static List<String> getUniqueWords(String text) {
-        String[] words = text.split("[0-9\\W]+");
-        ArrayList<String> uniqueWords = new ArrayList<String>();
-
-        for (String w : words) {
-            w = w.toLowerCase();
-
-            if (!uniqueWords.contains(w))
-                uniqueWords.add(w);
-        }
-
-        return uniqueWords;
-    }
-    */
-
     public List<String> extraKey(String text){
 
+        // divide the keyword by puncture
         String[] result = text.split("[\\p{Punct}\\s]+");
+        // create a list to save the keywords
         List<String> lastversion = new ArrayList<>();
 
+        // create the blacklist to delete the stop word
         String[] blabklist = new String[]{"a","an,the","do","does","did","has","have",
         "had","is","am","are","was","were","be","being","been","may","must","might",
         "should","could","would","shall","will","can","ought","when","why","how","all",
@@ -80,16 +56,19 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
         "toward","under","underneath","unlike","until","up","upon","versus","via","with","within","without"};
 
         for(int i = 0; i < result.length; i++){
+            // get the lowercase keyword
             result[i] = result[i].toLowerCase();
+            // if the keyword is letter, get the stem of the keyword
             if(is_alpha(result[i])){
                 englishStemmer stemmer = new englishStemmer();
                 stemmer.setCurrent(result[i]);
                 result[i] = stemmer.getCurrent();
 
+                // if this keyword in the blacklist, delete it directly
                 if(Arrays.asList(blabklist).contains(result[i])){
                     continue;
                 }
-
+                // if the key word is not in the keyword list, add it
                 if(!lastversion.contains(result[i])){
                     lastversion.add(result[i]);
                 }
@@ -103,7 +82,6 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
         StringBuilder content = new StringBuilder();
 
         try {
-
             URL url = new URL(urlString);
             InputStream in = url.openStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
@@ -119,55 +97,6 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
 
         return content.toString();
     }
-
-    /*
-    public void handleStartTag(Tag tag, MutableAttributeSet attrSet, int pos)
-    {
-        if (tag.toString().equals("a")) {
-
-            Enumeration<?> e = attrSet.getAttributeNames();
-
-            while (e.hasMoreElements()) {
-
-                Object aname = e.nextElement();
-
-                if (aname.toString().equals("href")) {
-                    String u = (String) attrSet.getAttribute(aname);
-                    if (urls.size() < 30 && !urls.contains(u))
-                        urls.add(u);
-                }
-            }
-        }
-    }
-     */
-
-    /*
-    public boolean isAbsURL(String str) {
-        return str.matches("^[a-z0-9]+://.+");
-    }
-
-     */
-
-    /*
-    URL toAbsURL(String str, URL ref) throws MalformedURLException {
-        URL url = null;
-
-        String prefix = ref.getProtocol() + "://" + ref.getHost();
-
-        if (ref.getPort() > -1)
-            prefix += ":" + ref.getPort();
-
-        if (!str.startsWith("/")) {
-            int len = ref.getPath().length() - ref.getFile().length();
-            String tmp = "/" + ref.getPath().substring(0, len) + "/";
-            prefix += tmp.replace("//", "/");
-        }
-        url = new URL(prefix + str);
-
-        return url;
-    }
-
-     */
 
     public boolean is_alpha(String str) {
         if(str==null) return false;
@@ -190,7 +119,6 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
         else{
             return false;
         }
-        //System.out.println(title);
 
         Pattern p = Pattern.compile("[\u4e00-\u9fa5]");
         Matcher m = p.matcher(title);
@@ -203,28 +131,6 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
 
         return true;
     }
-
-
-
-    /*
-    List<String> getURLs(String srcPage) throws IOException {
-        URL url = new URL(srcPage);
-        InputStreamReader reader = new InputStreamReader(url.openStream());
-
-        ParserDelegator parser = new ParserDelegator();
-        MyParserCallback callback = new MyParserCallback();
-        parser.parse(reader, callback, true);
-
-        for (int i=0; i<callback.urls.size(); i++) {
-            String str = callback.urls.get(i);
-            if (!isAbsURL(str))
-                callback.urls.set(i, toAbsURL(str, url).toString());
-        }
-
-        return callback.urls;
-    }
-     */
-
 
     @Override
     public void handleText(char[] data, int pos) {
