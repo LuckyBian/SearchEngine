@@ -21,7 +21,7 @@ public class DataScraper {
     final int V = 100;
     final int N_THREADS = 10;
 
-    final boolean webFilter = false;
+    final boolean webFilter = true;
 
     public static final boolean stem = false;
 
