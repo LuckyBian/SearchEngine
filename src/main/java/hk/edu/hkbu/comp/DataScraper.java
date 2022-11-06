@@ -21,6 +21,10 @@ public class DataScraper {
     final int V = 100;
     final int N_THREADS = 10;
 
+    final boolean webFilter = false;
+
+    public static final boolean stem = false;
+
     // URL means the url need to be read
     private URL urls = new URL();
 
@@ -89,8 +93,10 @@ public class DataScraper {
 
                     //check the title length and language of the website
                     // to avoid the messy code and Chinese websites
-                    if (!m.goodweb(content)) {
-                        continue;
+                    if(webFilter){
+                        if (!m.goodweb(content)) {
+                            continue;
+                        }
                     }
 
                     //extract the title from website

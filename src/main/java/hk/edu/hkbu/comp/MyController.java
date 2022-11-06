@@ -67,16 +67,21 @@ public class MyController {
 
             if (wordNumber == 1) {
 
-                words[0] = stem(words[0]);
+                if(DataScraper.stem){
+                    words[0] = stem(words[0]);
+                }
+
                 words[0] = words[0].toLowerCase();
 
                 Set<PageInfo> resultSet = onesearch(words[0]);
                 request.setAttribute("resultSet", resultSet);
                 return "index.html";
             } else if (wordNumber == 2) {
-                words[0] = stem(words[0]);
+                if(DataScraper.stem){
+                    words[0] = stem(words[0]);
+                    words[1] = stem(words[1]);
+                }
                 words[0] = words[0].toLowerCase();
-                words[1] = stem(words[1]);
                 words[1] = words[1].toLowerCase();
 
                 if (query.matches("[A-z]+\\+[A-z]+")) {

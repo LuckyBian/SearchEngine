@@ -60,9 +60,12 @@ public class MyParserCallback extends HTMLEditorKit.ParserCallback {
             result[i] = result[i].toLowerCase();
             // if the keyword is letter, get the stem of the keyword
             if(is_alpha(result[i])){
-                englishStemmer stemmer = new englishStemmer();
-                stemmer.setCurrent(result[i]);
-                result[i] = stemmer.getCurrent();
+
+                if(DataScraper.stem){
+                    englishStemmer stemmer = new englishStemmer();
+                    stemmer.setCurrent(result[i]);
+                    result[i] = stemmer.getCurrent();
+                }
 
                 // if this keyword in the blacklist, delete it directly
                 if(Arrays.asList(blabklist).contains(result[i])){
