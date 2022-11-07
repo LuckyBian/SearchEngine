@@ -119,22 +119,25 @@ public class MyController {
     public Set<PageInfo> andsearch(String text1,String text2){
         Set<PageInfo> result1 = dataTable.search(text1);
         Set<PageInfo> result2 = dataTable.search(text2);
-        result1.retainAll(result2);
-        return result1;
+        Set<PageInfo> resultSet = new HashSet<>(result1);
+        resultSet.retainAll(result2);
+        return resultSet;
     }
 
     public Set<PageInfo> notsearch(String text1,String text2){
         Set<PageInfo> result1 = dataTable.search(text1);
         Set<PageInfo> result2 = dataTable.search(text2);
-        result1.removeAll(result2);
-        return result1;
+        Set<PageInfo> resultSet = new HashSet<>(result1);
+        resultSet.removeAll(result2);
+        return resultSet;
     }
 
     public Set<PageInfo> orsearch(String text1,String text2){
         Set<PageInfo> result1 = dataTable.search(text1);
         Set<PageInfo> result2 = dataTable.search(text2);
-        result1.addAll(result2);
-        return result1;
+        Set<PageInfo> resultSet = new HashSet<>(result1);
+        resultSet.addAll(result2);
+        return resultSet;
     }
 
     public static String stem(String text){
