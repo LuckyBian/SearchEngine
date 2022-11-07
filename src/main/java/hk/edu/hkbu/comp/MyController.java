@@ -52,14 +52,14 @@ public class MyController {
                        Model model) throws IOException {
         //返回搜索结果，需要额外方法进行过滤
         if (query.equals("")) {
-            return "redirect:/index.html";
+            return "redirect:";
         }
 
         if (scope != null && scope.equals("URL")) {
             if (query.matches("^[a-z0-9]+://.+")) {
                 return "redirect:" + query;
             } else {
-                return "redirect:/index.html";
+                return "redirect:";
             }
         } else {
             String[] words = query.split("[\\p{Punct}\\s+]");
@@ -76,7 +76,8 @@ public class MyController {
                 Set<PageInfo> resultSet = onesearch(words[0]);
                 request.setAttribute("resultSet", resultSet);
                 return "index.html";
-            } else if (wordNumber == 2) {
+            }
+            else if (wordNumber == 2) {
                 if(DataScraper.stem){
                     words[0] = stem(words[0]);
                     words[1] = stem(words[1]);
@@ -97,10 +98,10 @@ public class MyController {
                     request.setAttribute("resultSet", resultSet);
                     return "index.html";
                 } else {
-                    return "redirect:/index.html";
+                    return "redirect:";
                 }
             } else {
-                return "redirect:/index.html";
+                return "redirect:";
             }
         }
     }
