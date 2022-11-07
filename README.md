@@ -56,7 +56,7 @@ If the data file data_table.ser is not found, the program will collect the web d
   
 Once the data has been collected, it can be imported directly the next time the program is run. The search function will feed the user with search results based on the keywords and web pages collected.  
   
-**Gather Data**  
+**Search Website**  
   
 The web server is implemented with Spring Boot Framework.  
   
