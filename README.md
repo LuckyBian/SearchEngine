@@ -55,6 +55,26 @@ If the data file data_table.ser is not found, the program will collect the web d
 7. DataTable will be saved in the datafile data_table.ser.  
   
 Once the data has been collected, it can be imported directly the next time the program is run. The search function will feed the user with search results based on the keywords and web pages collected.  
+  
+**Gather Data**  
+  
+The web server is implemented with Spring Boot Framework.  
+  
+When constructing the Controller bean, it will try to load the scraped data from the data file data_table.ser. If the data file is not found or corrupted, it will re-run the Gather Data step.  
+  
+The main function resides in the search method (endpoint /search). It first tells if the input is a URL. If so, it just redirects to the URL. Otherwise, it will perform the following processes.  
+
+1.Determine search keyword type, as specified in Section 1.2 in the Project Specification.  
+  
+2.Perform keyword stemming. This is meant to improve the search results by matching all inflections of a keyword. The stemming function is provided by a third-party library Snowball Stemmer.  
+  
+3.Retrieve result set(s) from the data table index. For two-word searches, it utilizes the set operations intersection/union/except to achieve the AND/OR/Exclusion matchings, and produce a final result set.  
+  
+4. The result set is rendered according to the HTML template by the Thymeleaf view engine. Each result consists of a title and a URL.  
+  
+In addition, we provide an API /raw-data to fetch all gathered data.  
+When you enter the website, it will first prompt the searching tips. You can then follow the tips to input search query.  
+
 
 
 
