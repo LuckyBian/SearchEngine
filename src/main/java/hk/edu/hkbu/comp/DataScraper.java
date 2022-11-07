@@ -141,7 +141,7 @@ public class DataScraper {
                         }
 
                         // get all urls from a webpage
-                        String pattern2 = "<a[^>]*href=\"((http|www)[^\\\\\"]*)\"";
+                        String pattern2 = "<\\s*a\\s*[^>]*href\\s*=\\s*\"((http|www)[^\\\\\"]*)\"";
                         Pattern r2 = Pattern.compile(pattern2);
                         Matcher m2 = r2.matcher(content);
 
