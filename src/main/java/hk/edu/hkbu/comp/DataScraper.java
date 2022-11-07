@@ -41,7 +41,7 @@ public class DataScraper {
         MyParserCallback m = new MyParserCallback();
 
         // seed URL
-        String seedUrl = "https://biol.hkbu.edu.hk/";
+        String seedUrl = "https://www.comp.hkbu.edu.hk/~xkliao/comp4047/SeedPage.html";
 
         // add the first url
         urls.add(seedUrl);
